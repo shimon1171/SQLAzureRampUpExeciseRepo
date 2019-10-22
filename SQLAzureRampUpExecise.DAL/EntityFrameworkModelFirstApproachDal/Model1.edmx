@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Orders" EntityType="Model1.Store.Orders" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OrderInfoes" EntityType="Model1.Store.OrderInfoes" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="OrderOrderInfo" Association="Model1.Store.OrderOrderInfo">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderInfo" EntitySet="OrderInfoes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CompanyName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RestaurantName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OrderInfoes">
+    <Key>
+      <PropertyRef Name="OrderInfoID" />
+    </Key>
+    <Property Name="OrderInfoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="OrderUserID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="OrderOrderInfo">
+    <End Role="Order" Type="Model1.Store.Orders" Multiplicity="1" />
+    <End Role="OrderInfo" Type="Model1.Store.OrderInfoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="OrderInfo">
+        <PropertyRef Name="OrderUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Orders" EntityType="Model1.Order" />
+          <EntitySet Name="OrderInfoes" EntityType="Model1.OrderInfo" />
+          <AssociationSet Name="OrderOrderInfo" Association="Model1.OrderOrderInfo">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderInfo" EntitySet="OrderInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" />
+          <Property Name="RestaurantName" Type="String" Nullable="false" />
+          <NavigationProperty Name="OrderInfoes" Relationship="Model1.OrderOrderInfo" FromRole="Order" ToRole="OrderInfo" />
+        </EntityType>
+        <EntityType Name="OrderInfo">
+          <Key>
+            <PropertyRef Name="OrderInfoID" />
+          </Key>
+          <Property Name="OrderInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Time" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Model1.OrderOrderInfo" FromRole="OrderInfo" ToRole="Order" />
+          <Property Name="OrderUserID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="OrderOrderInfo">
+          <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+          <End Type="Model1.OrderInfo" Role="OrderInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OrderInfo">
+              <PropertyRef Name="OrderUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Order)">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderInfoes">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.OrderInfo)">
+        <MappingFragment StoreEntitySet="OrderInfoes">
+          <ScalarProperty Name="OrderInfoID" ColumnName="OrderInfoID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="OrderUserID" ColumnName="OrderUserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
